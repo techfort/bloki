@@ -1,10 +1,14 @@
 'use strict';
 
 angular.module('blokiApp')
-  .controller('PostCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      '1 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-  });
+.controller('PostCtrl',['$scope','$http','Post', function ($scope, $http, Post) {
+
+  $scope.getAll = function(){
+    Post.getAll(function(data){
+      $scope.posts = data.reverse();
+    });
+  };
+
+  $scope.getAll();
+
+}]);

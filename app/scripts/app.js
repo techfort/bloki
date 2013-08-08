@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('blokiApp', ['ui.state'])
+angular.module('blokiApp', ['ui.state','blokiApp.factories'])
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
     .state('/', {
@@ -12,11 +12,11 @@ angular.module('blokiApp', ['ui.state'])
         }
       }
     })
-    .state('post',{
-      url : '/post/:id',
+    .state('p',{
+      url : '/p/:id',
       views : {
         'main' : {
-          templateUrl : 'views/partials/main.html',
+          templateUrl : 'views/partials/view.html',
           controller : 'PostCtrl'
         }
       }

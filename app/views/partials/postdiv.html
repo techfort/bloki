@@ -1,0 +1,5 @@
+<div class="postContainer container" >
+	<div class="postHeading" id="title">{{ post.title }}</div>
+	<div class="postDate" id="date">{{ post.date }}</div>
+	<div class="postContent" id="content" ng-bind-html-unsafe="post.content | md2html"></div>
+</div>

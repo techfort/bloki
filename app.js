@@ -5,9 +5,9 @@ app.use(express.logger());
 var loki = require('lokijs');
 var db = new loki('Bloki');
 var posts = db.addCollection('posts', 'Post');
-posts.document({ title: 'First Post', content: '# First Bloki\n\nsome awesome post', date : new Date()});
-posts.document({ title: 'Second Post', content: '# Second Bloki\n\nsome awesome post', date : new Date()});
-posts.document({ title: 'Third Post', content: '# Third Bloki\n\nsome awesome post', date : new Date()});
+posts.document({ title: 'First Post', content: '### First Post\n\nsome `awesome post`', date : new Date()});
+posts.document({ title: 'Second Post', content: '### Second Post\n\nsome *awesome post*', date : new Date()});
+posts.document({ title: 'Third Post', content: '### Third Post\n\nsome __awesome post__', date : new Date()});
 // Configuration
 
 app.configure(function(){
