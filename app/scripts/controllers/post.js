@@ -3,7 +3,7 @@
 angular.module('blokiApp')
   .controller('PostCtrl', function ($scope) {
     $scope.awesomeThings = [
-      'HTML5 Boilerplate',
+      '1 Boilerplate',
       'AngularJS',
       'Karma'
     ];
