@@ -27,15 +27,16 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="container-fluid" ui-view="header"></div>
-    <div class="container">
-        <div class="row-fluid">
-            <div class="span9" ui-view="main"></div>
-            <div class="span3" ui-view="sidebar"></div>
+    <div class="row-fluid">
+        <div ui-view="header"></div>
+        <div class="container">
+            <div class="row-fluid">
+                <div class="span9" ui-view="main"></div>
+                <div class="span3" ui-view="sidebar"></div>
+            </div>
         </div>
+        <div class="container-fluid" ui-view="footer"></div>
     </div>
-    <div class="container" ui-view="footer"></div>
-
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
       var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
