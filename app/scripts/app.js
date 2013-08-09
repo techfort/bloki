@@ -3,24 +3,32 @@
 angular.module('blokiApp', ['ui.state','blokiApp.factories'])
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
-    .state('/', {
-      url : '/',
+    .state('home', {
+      url : '/home',
       views : {
         'main' : {
           templateUrl: 'views/partials/main.html',
           controller : 'PostCtrl'
+        },
+        'header' : {
+          templateUrl: 'views/partials/header.html',
+          controller: 'HeaderCtrl'
         }
       }
     })
-    .state('p',{
-      url : '/p/:id',
+    .state('post',{
+      url : '/home/:id',
       views : {
         'main' : {
           templateUrl : 'views/partials/view.html',
-          controller : 'PostCtrl'
+          controller : 'ViewCtrl'
+        },
+        'header' : {
+          templateUrl: 'views/partials/header.html',
+          controller: 'HeaderCtrl'
         }
       }
     });
 
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/home');
   });

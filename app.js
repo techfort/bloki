@@ -25,7 +25,7 @@ app.get('/', function(request, response) {
 });
 
 app.get('/post/:id?', function(req, res){
-	req.params.id ? res.send( posts.get(id) ) : res.send( posts.find() );
+	req.params.id ? res.send( posts.get(req.params.id) ) : res.send( posts.find() );
 });
 
 var port = process.env.PORT || 5000;

@@ -27,7 +27,9 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
+    <div class="container" ui-view="header"></div>
     <div class="container" ui-view="main"></div>
+    <div class="container" ui-view="footer"></div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
@@ -71,6 +73,8 @@
         <script src="directive/postdiv.js"></script>
         
         <script src="factory/Post.js"></script>
+        <script src="controller/header.js"></script>
+        <script src="controller/view.js"></script>
         <!-- endbuild -->
 </body>
 </html>
