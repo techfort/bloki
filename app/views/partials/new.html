@@ -1,0 +1,20 @@
+<div class="row-fluid">
+  
+  <div>
+    title:<br>
+    <input type="text" ng-model="newpost.title" />
+  </div>
+  
+  <div>
+    content:<br>
+    <textarea ng-model="newpost.content" rows="10" cols="20"></textarea>
+  </div>
+
+  <div>
+    preview<br>
+    <div ng-bind-html-unsafe="newpost.content | md2html"></div>
+  </div>
+
+  <button class="btn btn-success" ng-click="createPost()">create post</button>
+
+</div>

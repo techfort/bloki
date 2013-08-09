@@ -27,8 +27,13 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="container" ui-view="header"></div>
-    <div class="container" ui-view="main"></div>
+    <div class="container-fluid" ui-view="header"></div>
+    <div class="container">
+        <div class="row-fluid">
+            <div class="span9" ui-view="main"></div>
+            <div class="span3" ui-view="sidebar"></div>
+        </div>
+    </div>
     <div class="container" ui-view="footer"></div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
@@ -75,6 +80,7 @@
         <script src="factory/Post.js"></script>
         <script src="controller/header.js"></script>
         <script src="controller/view.js"></script>
+        <script src="controller/newpost.js"></script>
         <!-- endbuild -->
 </body>
 </html>

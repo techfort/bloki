@@ -28,6 +28,12 @@ app.get('/post/:id?', function(req, res){
 	req.params.id ? res.send( posts.get(req.params.id) ) : res.send( posts.find() );
 });
 
+app.put('/post',function(req, res){
+  var post = req.body;
+  posts.document(post);
+  res.send(post);
+});
+
 var port = process.env.PORT || 5000;
 app.listen(port, function() {
   console.log("Listening on " + port);

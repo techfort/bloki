@@ -10,8 +10,5 @@ angular.module('blokiApp')
   };
 
   $scope.getAll();
-  $scope.$on('$stateChangeSuccess',function(ev, current, prev){
-      console.log($stateParams);
-    });
 
 }]);

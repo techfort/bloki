@@ -28,7 +28,21 @@ angular.module('blokiApp', ['ui.state','blokiApp.factories'])
           controller: 'HeaderCtrl'
         }
       }
-    });
+    })
+    .state('newpost',{
+        url : '/new',
+        views : {
+          "main" : {
+            templateUrl: 'views/partials/new.html',
+            controller: 'NewpostCtrl'  
+          },
+          "header" : {
+            templateUrl: 'views/partials/header.html',
+            controller : 'HeaderCtrl'
+          }
+        }
+      }
+    );
 
     $urlRouterProvider.otherwise('/home');
   });

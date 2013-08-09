@@ -27,7 +27,13 @@ angular.module('blokiApp.factories',[])
 
     },
     insert : function(post, callback){
+      $http.put('/post', post)
+      .success(function(data,status,config,headers){
+        callback(data);
+      })
+      .error(function(data,status,config,headers){
 
+      });
     }
   };
 }]);
