@@ -6,3 +6,5 @@ body {
 
 .postContainer { margin-bottom: 5px;}
 .postHeading {  text-shadow: 1px 1px 1px #fff; }
+.hidden { display:none;}
+.vis { display: normal;}

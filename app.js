@@ -1,15 +1,39 @@
-var express = require("express");
- 
+var express = require('express');
+var util = require('util');
+var fs = require('fs');
 var app = express();
 app.use(express.logger());
 var loki = require('lokijs');
 var db = new loki('Bloki');
-var posts = db.addCollection('posts', 'Post');
-posts.document({ title: 'First Post', content: '### First Post\n\nsome `awesome post`', date : new Date()});
-posts.document({ title: 'Second Post', content: '### Second Post\n\nsome *awesome post*', date : new Date()});
-posts.document({ title: 'Third Post', content: '### Third Post\n\nsome __awesome post__', date : new Date()});
-// Configuration
+var curSize = 0;
+var dbFile = 'bloki.db';
 
+// initialize the posts collection
+var posts;
+
+// get db file size
+var stats = util.inspect(fs.statSync( dbFile ));
+curSize = stats.size;
+
+function saveDb(){
+  fs.writeFile(dbFile, db.serialize(), function(err){
+    if(err) throw err;
+    var stats = util.inspect(fs.statSync( dbFile ));
+    curSize = stats.size;
+  });  
+};
+
+function loadDb(){
+  
+  var data = fs.readFileSync( dbFile, {encoding: 'utf8'});
+  db.load(data);
+  posts = db.collections[0];
+}
+// load the database from file
+loadDb();
+
+
+// Configuration
 app.configure(function(){
   app.set('views', __dirname + '/app');
   //app.set('view engine', 'jade');
@@ -30,7 +54,9 @@ app.get('/post/:id?', function(req, res){
 
 app.put('/post',function(req, res){
   var post = req.body;
-  posts.document(post);
+  posts.insert(post);
+  fs.truncate( dbFile, curSize, saveDb );
+
   res.send(post);
 });
 
