@@ -5,6 +5,6 @@
   		<postdiv post="post" />
   	</li>
   </ul>
-  <div ng-class="{true: 'hidden', false: 'vis'}[posts.length==0]">No posts yet!</div>
+  <div ng-class="{false: 'hidden', true: 'vis'}[posts.length == 0]">No posts yet! {{ posts.length }}</div>
 
 </div>

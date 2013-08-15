@@ -10,10 +10,21 @@ var dbFile = 'bloki.db';
 
 // initialize the posts collection
 var posts;
-
+var stats;
 // get db file size
-var stats = util.inspect(fs.statSync( dbFile ));
-curSize = stats.size;
+fs.exists( dbFile, function(exists){
+  if(!exists){
+    posts = db.addCollection('posts','Post');
+    return;
+  } else {
+    stats = util.inspect(fs.statSync( dbFile ));
+    curSize = stats.size;
+    // load the database from file
+    loadDb();
+  }
+});
+
+
 
 function saveDb(){
   fs.writeFile(dbFile, db.serialize(), function(err){
@@ -24,13 +35,14 @@ function saveDb(){
 };
 
 function loadDb(){
-  
   var data = fs.readFileSync( dbFile, {encoding: 'utf8'});
   db.load(data);
   posts = db.collections[0];
+  posts.indices.push( db.collections[0].idIndex );
+  posts.ensureIndex('id');
+  //posts.idIndex.data.sort();
+  console.log(posts.indices);  
 }
-// load the database from file
-loadDb();
 
 
 // Configuration
@@ -55,7 +67,8 @@ app.get('/post/:id?', function(req, res){
 app.put('/post',function(req, res){
   var post = req.body;
   posts.insert(post);
-  fs.truncate( dbFile, curSize, saveDb );
+  console.log(posts);
+  fs.unlink( dbFile, saveDb );
 
   res.send(post);
 });
