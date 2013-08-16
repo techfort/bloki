@@ -2,7 +2,8 @@
   <div class="navbar-inner">
     <a href="#/home" class="brand">Bloki</a>
     <ul class="nav">
-      <li><a href="#/new">New post</a></li>
+      <li ng-class="{ true:'vis', false:'hidden'}[loggedIn==true]"><a href="#/new">New post</a></li>
+      <li><a href="#" ng-click="login()">Login</li>
     </ul>
   </div>
 </div>

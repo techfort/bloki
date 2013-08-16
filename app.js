@@ -7,6 +7,7 @@ var loki = require('lokijs');
 var db = new loki('Bloki');
 var curSize = 0;
 var dbFile = 'bloki.db';
+const clientSessions = require('client-sessions');
 
 // initialize the posts collection
 var posts;
@@ -14,36 +15,23 @@ var stats;
 // get db file size
 fs.exists( dbFile, function(exists){
   if(!exists){
+    console.log('File does not exist, init\'ing collection');
+
     posts = db.addCollection('posts','Post');
     return;
   } else {
-    stats = util.inspect(fs.statSync( dbFile ));
-    curSize = stats.size;
+    console.log('loading from file')
     // load the database from file
-    loadDb();
+    db.loadDatabase( dbFile, function(data){
+      console.log(data);
+      console.log(db.collections);
+      posts = db.getCollection('posts');
+    });
+    console.log(db.collections);
   }
 });
 
-
-
-function saveDb(){
-  fs.writeFile(dbFile, db.serialize(), function(err){
-    if(err) throw err;
-    var stats = util.inspect(fs.statSync( dbFile ));
-    curSize = stats.size;
-  });  
-};
-
-function loadDb(){
-  var data = fs.readFileSync( dbFile, {encoding: 'utf8'});
-  db.load(data);
-  posts = db.collections[0];
-  posts.indices.push( db.collections[0].idIndex );
-  posts.ensureIndex('id');
-  //posts.idIndex.data.sort();
-  console.log(posts.indices);  
-}
-
+var loggedIn = false;
 
 // Configuration
 app.configure(function(){
@@ -51,6 +39,7 @@ app.configure(function(){
   //app.set('view engine', 'jade');
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+  app.use(clientSessions({ secret: 'odisdhjkasdoiuwerjkl12903nd9'}));
   app.use(express.static(__dirname + '/app'));
   app.use(app.router);
   app.engine('html', require('ejs').renderFile);
@@ -61,16 +50,25 @@ app.get('/', function(request, response) {
 });
 
 app.get('/post/:id?', function(req, res){
+  console.log(posts);
 	req.params.id ? res.send( posts.get(req.params.id) ) : res.send( posts.find() );
 });
 
 app.put('/post',function(req, res){
   var post = req.body;
   posts.insert(post);
-  console.log(posts);
-  fs.unlink( dbFile, saveDb );
+  db.saveToDisk( dbFile, function(){});
 
   res.send(post);
+});
+
+app.post('/login',function(req, res){
+  req.session.username = 'admin';
+  res.send({loggedin: true});
+});
+
+app.post('/loginstatus',function(req, res){
+  res.send(loggedIn);
 });
 
 var port = process.env.PORT || 5000;
