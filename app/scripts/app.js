@@ -13,6 +13,10 @@ angular.module('blokiApp', ['ui.state','blokiApp.factories'])
         'header' : {
           templateUrl: 'views/partials/header.html',
           controller: 'HeaderCtrl'
+        },
+        'sidebar' : {
+          templateUrl: 'views/partials/sidebar.html',
+          controller: 'HeaderCtrl'
         }
       }
     })
@@ -25,6 +29,10 @@ angular.module('blokiApp', ['ui.state','blokiApp.factories'])
         },
         'header' : {
           templateUrl: 'views/partials/header.html',
+          controller: 'HeaderCtrl'
+        },
+        'sidebar' : {
+          templateUrl: 'views/partials/sidebar.html',
           controller: 'HeaderCtrl'
         }
       }
@@ -39,6 +47,10 @@ angular.module('blokiApp', ['ui.state','blokiApp.factories'])
           "header" : {
             templateUrl: 'views/partials/header.html',
             controller : 'HeaderCtrl'
+          },
+          'sidebar' : {
+            templateUrl: 'views/partials/uploadimage.html',
+            controller: 'UploadImageCtrl'
           }
         }
       }

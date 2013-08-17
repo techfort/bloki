@@ -39,7 +39,8 @@ app.configure(function(){
   //app.set('view engine', 'jade');
   app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(clientSessions({ secret: 'odisdhjkasdoiuwerjkl12903nd9'}));
+  app.use(express.cookieParser());
+  app.use(express.session({ secret: 'odisdhjkasdoiuwerjkl12903nd9'}));
   app.use(express.static(__dirname + '/app'));
   app.use(app.router);
   app.engine('html', require('ejs').renderFile);
@@ -64,7 +65,8 @@ app.put('/post',function(req, res){
 
 app.post('/login',function(req, res){
   req.session.username = 'admin';
-  res.send({loggedin: true});
+  console.log(req.session);
+  res.send({loggedIn: true});
 });
 
 app.post('/loginstatus',function(req, res){

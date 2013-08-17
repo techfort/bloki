@@ -10,10 +10,12 @@ angular.module('blokiApp')
       login: function () {
         $http.post('/login')
         .success(function(data,status,config,headers){
-          loggedIn = data;
+          console.log('Got result');
+          console.log(data);
+          loggedIn = data.loggedIn;
         })
         .error(function(data,status,config,headers){
-
+          console.log(data);
         });
 
       },

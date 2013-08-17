@@ -2,7 +2,8 @@
 
 angular.module('blokiApp')
   .controller('HeaderCtrl', function ($scope, Login) {
-    $scope.loggedin = Login.getStatus();
-    $scope.login = Login.login;
-
+    $scope.loggedIn = Login.getStatus;
+    $scope.login = function(){
+      Login.login();
+    };
   });
