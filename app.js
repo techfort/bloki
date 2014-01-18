@@ -4,7 +4,7 @@ var fs = require('fs');
 var app = express();
 app.use(express.logger());
 var loki = require('lokijs');
-var db = new loki('Bloki');
+var db = new loki('bloki.db');
 var curSize = 0;
 var dbFile = 'bloki.db';
 const clientSessions = require('client-sessions');
@@ -13,7 +13,7 @@ const clientSessions = require('client-sessions');
 var posts;
 var stats;
 // get db file size
-fs.exists( dbFile, function(exists){
+fs.exists( db.filename, function(exists){
   if(!exists){
     console.log('File does not exist, init\'ing collection');
 
@@ -22,7 +22,7 @@ fs.exists( dbFile, function(exists){
   } else {
     console.log('loading from file')
     // load the database from file
-    db.loadDatabase( dbFile, function(data){
+    db.loadDatabase(function(data){
       console.log(data);
       console.log(db.collections);
       posts = db.getCollection('posts');
@@ -32,12 +32,14 @@ fs.exists( dbFile, function(exists){
 });
 
 var loggedIn = false;
-
+function no_op(){
+  return;
+};
 // Configuration
 app.configure(function(){
   app.set('views', __dirname + '/app');
   //app.set('view engine', 'jade');
-  app.use(express.bodyParser());
+  app.use(express.bodyParser({ uploadDir : './tmp'}));
   app.use(express.methodOverride());
   app.use(express.cookieParser());
   app.use(express.session({ secret: 'odisdhjkasdoiuwerjkl12903nd9'}));
@@ -51,14 +53,20 @@ app.get('/', function(request, response) {
 });
 
 app.get('/post/:id?', function(req, res){
-  console.log(posts);
-	req.params.id ? res.send( posts.get(req.params.id) ) : res.send( posts.find() );
+  
+  if(req.params.id !== undefined) {
+    var id = parseInt(req.params.id);
+    var p = posts.get(id);
+    res.send(p);
+  } else {
+    res.send(posts.find());
+  }
 });
 
 app.put('/post',function(req, res){
   var post = req.body;
   posts.insert(post);
-  db.saveToDisk( dbFile, function(){});
+  db.saveToDisk(no_op);
 
   res.send(post);
 });
@@ -71,6 +79,29 @@ app.post('/login',function(req, res){
 
 app.post('/loginstatus',function(req, res){
   res.send(loggedIn);
+});
+
+app.post('/upload',function(req, res){
+  
+  console.log(req.files);
+
+  var imagespath = './app/images/' + req.files.image.name;
+  fs.rename(req.files.image.path, imagespath, function(err){
+    if(err){
+      console.log('Error');
+      console.log(err);
+      res.send({error: 'Error uploading file.'});
+      return;
+    }
+    console.log('Upload ok');
+    fs.unlink(req.files.image.path, function(err){
+      if(err){
+        console.log('Failed removing file');
+      }
+      console.log('Temp file removed');
+    })
+    res.send( { path: '/images/' + req.files.image.name } );
+  })
 });
 
 var port = process.env.PORT || 5000;

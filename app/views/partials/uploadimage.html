@@ -2,3 +2,8 @@
 
 <input type="file" id="imageupload" />
 <button class="btn btn-success" ng-click="upload('imageupload')">Upload Image</button>
+<div class="progress">
+  <div class="bar" style="width: {{ perc }}%" ></div>
+</div>
+
+<img src="{{ lastUrl }}" width="200px" />
